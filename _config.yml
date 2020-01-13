@@ -55,7 +55,7 @@ baseurl: ""
 
 
 # Theme for layout
-theme: jekyll-theme-cayman
+theme: jekyll-theme-slate
 
 #
 # !! You don't need to change any of the configuration flags below !!
