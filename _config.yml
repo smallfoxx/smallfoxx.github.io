@@ -2,9 +2,9 @@
 # This file contains configuration flags to customize your site
 #
 
-title: Some title
 # Name of your site (displayed in the header)
 name: SmallFoxx Tech Blog
+title: SmallFoxx Tech Blog
 
 # Short bio or description (displayed in the header)
 description: Another geek posting more crud about tech stuff
