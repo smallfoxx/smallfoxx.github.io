@@ -16,3 +16,11 @@ layout: default
     </article>
   {% endfor %}
 </div>
+
+<div class="wrapper-footer">
+  <div class="container">
+    <footer class="footer">
+      {% include svg-icons.html %}
+    </footer>
+  </div>
+</div>
