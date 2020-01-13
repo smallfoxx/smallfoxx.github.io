@@ -17,7 +17,7 @@ layout: default
   {% endfor %}
 </div>
 
-<div class="wrapper-footer">
+<div class="footer_wrap">
   <div class="container">
     <footer class="footer">
       {% include svg-icons.html %}
