@@ -17,8 +17,8 @@ layout: default
   {% endfor %}
 </div>
 
-<div id="footer_wrap" class="outer">
-    <footer class="outer">
+<div id="footer_wrap" class="posts">
+    <footer class="entry">
       {% include svg-icons.html %}
     </footer>
 </div>
