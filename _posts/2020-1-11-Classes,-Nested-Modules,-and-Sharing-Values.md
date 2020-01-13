@@ -18,18 +18,18 @@ As I've been working on a recent Module package, I've been separating out the mo
 
 This means that the **MyModule** module has two file modules incorporated with it the two nested module **Alpha** and **Beta**.  This works great and no problems here.
 
-| |
-| - [Summary](#summary) |
-| - [Goals](#goals) |
-| - [Gross oversimplification summary of PowerShell features](#gross-oversimplification-summary-of-powershell-features) |
-|   - [Sharing data](#sharing-data) |
-|     - [Scope](#scope) |
-|   - [Classes](#classes) |
-| - [Exploiting Scopes](#exploiting-scopes) |
-|   - [Basic implementation](#basic-implementation) |
-|   - [Coded Properties](#coded-properties) |
-|   - [Using your Class](#using-your-class) |
-| - [Example Code](#example-code) |
+## Contents ##
+- [Summary](#summary)
+- [Goals](#goals)
+- [Gross oversimplification summary of PowerShell features](#gross-oversimplification-summary-of-powershell-features)
+  - [Sharing data](#sharing-data)
+    - [Scope](#scope)
+  - [Classes](#classes)
+- [Exploiting Scopes](#exploiting-scopes)
+  - [Basic implementation](#basic-implementation)
+  - [Coded Properties](#coded-properties)
+  - [Using your Class](#using-your-class)
+- [Example Code](#example-code)
 
 ## Goals ##
 
