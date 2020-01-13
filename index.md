@@ -1,7 +1,7 @@
 ---
 layout: default
 ---
-<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
+<link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.scss" />
 <div class="posts">
   {% for post in site.posts %}
     <article class="post">
