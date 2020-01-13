@@ -19,7 +19,7 @@ layout: default
 
 <div id="footer_wrap" class="outer">
   <div class="container">
-    <footer class="inner">
+    <footer class="outer">
       {% include svg-icons.html %}
     </footer>
   </div>
