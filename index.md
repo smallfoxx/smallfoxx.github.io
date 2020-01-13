@@ -15,10 +15,7 @@ layout: default
       <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
     </article>
   {% endfor %}
-</div>
-
-<div id="footer_wrap" class="posts">
-    <footer class="entry">
-      {% include svg-icons.html %}
-    </footer>
+    <article class="post">
+          {% include svg-icons.html %}
+    </article>
 </div>
