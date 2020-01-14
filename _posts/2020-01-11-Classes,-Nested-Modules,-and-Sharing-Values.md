@@ -26,7 +26,7 @@ This means that the **MyModule** module has two file modules incorporated with i
 - [Exploiting Scopes](#exploiting-scopes)
   - [Basic implementation](#basic-implementation)
   - [Coded Properties](#coded-properties)
-  - [Using your Class](#using-your-class)
+  - [Using some Class](#using-some-class)
 - [Example Code](#example-code)
 
 ## Goals ##
@@ -247,7 +247,7 @@ PS> Get-Beta
 
 Perfect!
 
-### Using your Class ###
+### Using some Class ###
 
 The final piece I need is getting access to the Class definition and its script without publishing the Class to everyone and their bug.  This shouldn't be a major security consideration as they can still open your PowerShell and figure out what its doing, but rather just a way to minimize accidental access and protect the user from themselves.
 
