@@ -78,9 +78,9 @@ Classes are useful because you can setup your own structure:
 
 ```powershell
 Class cSharing {
-    [string] $MyValue
+    [string] $MyVariable
 
-    cSettings () {
+    cSharing () {
     }
 
 }
@@ -88,13 +88,13 @@ Class cSharing {
 
 Classes really have two main parts: Properties and Methods. 
 
-While I could create a variable then in both Alpha and Beta of the type cSharing, each would have its own unique .MyValue as each is just its own instantiation of the type of structure.  Also, would have to publish the class making it visibly externally, again, not really looking to do that in this case.  There are some classes I would want public, but internal settings isn't really one of them.
+While I could create a variable then in both Alpha and Beta of the type cSharing, each would have its own unique .MyValue as each is just its own instantiation of the type of structure.  Also, I would have to publish the class making it visibly externally, again, not really looking to do that in this case.  There are some classes I would want public, but internal settings isn't really one of them.
 
 ## Exploiting Scopes ##
 
-If you've gotten through the fast pace remedial, now this is where we start using scopes to our advantage.  Quite frankly, I stumbled on this.  It makes sense and I'm assuming someone has done this before, but I wanted to make sure it was shared. Its not an exploit of a vulnerability, just using the features provided to achieve our goals.
+If you've gotten through the fast pace remedial, now this is where we start using scopes to our advantage.  Quite frankly, I stumbled on this.  It makes sense and I'm assuming someone has done this before, but I haven't seen much about this and I wanted to make sure it was shared. Its not an exploit of a vulnerability, just using the features provided to achieve our goals.
 
-Going back to Classes, if we make a Method we use commands to do whatever we want: (consider this all within a ```class { }``` definition)
+Going back to Classes, if we make a Method, we use commands to do whatever we want: (consider this all within a ```class { }``` definition)
 
 ```powershell
 [string] GetData () {
@@ -105,7 +105,7 @@ Going back to Classes, if we make a Method we use commands to do whatever we wan
 }
 ```
 
-This is useful, but $FunVariable would just be scoped to within each Method and really no use.  With a class, we can reference our current instantiation of the class with the variable $this and reference its properties, even private ones:
+This is basic, but $FunVariable would just be scoped to within each Method and really no use.  With a class, we can reference our current instantiation of the class with the variable $this and reference its properties, even private ones:
 
 ```powershell
 [private][string]$FunVariable
@@ -117,7 +117,7 @@ This is useful, but $FunVariable would just be scoped to within each Method and 
 }
 ```
 
-This is helpful, but each instance of the class is going to have its own value of FunVariable.
+This is helpful, but each instance of the class is going to have its own value of ```.FunVariable```.
 
 Now, consider the scope Script:.  This means any value within the script.  A fun thing about this is while the values within a class are scoped to that instance of the class and that instance is within the scope of where it was created, the class itself has its own scope of where it was defined.  In this case, I had put it in its own file Classes.psm1.
 
@@ -136,14 +136,14 @@ Class cSharing {
 }
 ```
 
-What's great, is because now that the $FunVariable is in the scope of the Classes.psm1, no matter how many instances of ```cSharing``` you create they all reference the same ```$script:FunVariable``` object.
+What's great, is because now that the ```$FunVariable``` is in the scope of Classes.psm1, no matter how many instances of ```cSharing``` you create, they all reference the same ```$script:FunVariable``` object.
 
 ### Basic implementation ###
 
 As an example, if we make our Alpha.psm1 and Beta.psm1 nested modules look like this:
 
 ```powershell
-$AlphaSettings = New-Object cSettings
+$AlphaSettings = New-Object cSharing
 
 Function Get-Alpha {
     Write-Host "`tMyValue: $($AlphaSettings.MyValue)"
@@ -187,13 +187,13 @@ PS> Get-Beta
 
 This illustrates that the Shared value changes with each setting even across modules without global exposure or private filtering.
 
-However, things are a little less than ideal.  Methods work for reading and setting values, and they're a little clunky.  Furthermore, the class still has to be exported across module.
+However, things are a little less than ideal.  Methods work for reading and setting values, but they're a little clunky.  Furthermore, the class still has to be exported across modules.
 
 ### Coded Properties ###
 
-In many object oriented programs, classes can properties have code behind them for Get and Set routines.  However, PowerShell's class definition uses variables for properties and script blocks for methods; you can't do script blocks with properties.
+In many object oriented languages, classes can have properties that have code behind them for Get and Set routines.  However, PowerShell's class definition uses variables for properties and script blocks for methods. (there is a way to do get_ and set_ with a property, but I've rambled too far as it is, so I'll come back to it in another blog)
 
-Enter our PowerShell cmdlet friend: Add-Member ScriptProperty.  Not really sure why you can't do this in a class definition since PowerShell obviously supports this with the ScriptProperty member type.  With the Add-Member call the Value parameter is the Get script block and Value2 is the Set script block.
+Enter our PowerShell cmdlet friend: ```Add-Member ScriptProperty```.  It'd be nice to do this in a class definition since PowerShell obviously supports, but we'll just work around it.  With the Add-Member call, the ```Value``` parameter is the Get script block and ```Value2``` is the Set script block.
 
 But, since we can't do this within the definition of the class structure, we have to run Add-Member against each object as its constructed. Luckily, PowerShell classes do have a constructor method you can overload and is called whenever an object is created.
 
@@ -207,7 +207,7 @@ Class cSharing {
 }
 ```
 
-Now we just update our code to use the property Data instead of the methods GetData() and SetData().  In our example:
+Now we just update our code to use the property ```.Data``` instead of the methods GetData() and SetData().  In our example:
 
 ```powershell
 Function Get-Alpha {
@@ -249,7 +249,7 @@ Perfect!
 
 ### Using your Class ###
 
-The final piece I need is getting access to the Class definition and its script without publishing the Class to everyone and their bug.  This shouldn't be consider a major security consideration as they can still open your PowerShell and figure out what its doing, but rather just a way to minimize accidental access and protect the user from themselves.
+The final piece I need is getting access to the Class definition and its script without publishing the Class to everyone and their bug.  This shouldn't be a major security consideration as they can still open your PowerShell and figure out what its doing, but rather just a way to minimize accidental access and protect the user from themselves.
 
 In PowerShell v5, the command ```using``` was introduced to allow the importing of a module to obtain access to its Classes.  So rather than exporting the class and making it public, we can just use using:
 
@@ -257,7 +257,7 @@ In PowerShell v5, the command ```using``` was introduced to allow the importing 
 using module "C:\Path\To\Modules\GlobalSettings\Class.psm1"
 ```
 
-This works fine as long as I know where the module path is.  However, that path can easily change depending on where  the module is installed, but we can fix that by using the $PSScriptRoot.
+This works fine as long as I know where the module path is.  However, that path can easily change depending on where the module is installed, but we can fix that by using ```$PSScriptRoot```.
 
 ```powershell
 using module "$PSScriptRoot\Class.psm1"
@@ -270,9 +270,9 @@ $useBlock = [ScriptBlock]::Create("using module '$PSScriptRoot\Classes.psm1'")
 . $useBlock
 ```
 
-Now the module loads the class from the Classes.psm1!
+Now the module loads the class from Classes.psm1!
 
-This means that we're now sharing select object between modules without having to constantly pull and update the object every time we want to use it or make a change to it.  At the same time, we can coexist with unique properties among each iteration.
+This means that we're now sharing select objects between modules without having to constantly pull and update the object every time we want to use it or make a change to it.  At the same time, we can coexist with unique properties among each iteration.
 
 ## Example Code ##
 
