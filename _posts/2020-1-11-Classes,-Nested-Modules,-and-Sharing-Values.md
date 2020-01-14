@@ -52,10 +52,10 @@ However, assume that there is a value in Alpha that needs to be shared with Beta
 
 | **Method** | **Code** | **Pro** | **Con** |
 | --- | --- | --- | --- |
-| Global private variable | ```New-Variable -Name &lt;name&gt; -Value &lt;value&gt; -Visibility Private -Scope Global``` | Its privately available within your module | Its existence outside your module is visible with the proper call, even if value is hard to find |
-| Get-/Set- Functions | ```Function Get-&lt;name&gt; { $script:&lt;name&gt; }Function Set-&lt;name&gt; {$script:&lt;name&gt; = $args[0] }``` | Value manipulation totally controlled by calls | - Functions exposed outside module- Have to call them potentially every time a value is updated- Very taxing when dealing with external data sources |
-| Reference Object | ```[ref]$&lt;name&gt;``` | Gets dynamic content from single memory space | Have to constantly use .Value property and always use [ref] in type definition |
-| Custom class | ```class MyClass {     $&lt;name&gt;     Function MyClass() { }}``` | Consistent structure throughout usage | Values unique to each instantiation. |
+| Global private variable | ```New-Variable -Name <name> -Value <value> -Visibility Private -Scope Global``` | Its privately available within your module | Its existence outside your module is visible with the proper call, even if value is hard to find |
+| Get-/Set- Functions | ```Function Get-<name> { $script:<name> }Function Set-<name> {$script:<name> = $args[0] }``` | Value manipulation totally controlled by calls | - Functions exposed outside module- Have to call them potentially every time a value is updated- Very taxing when dealing with external data sources |
+| Reference Object | ```[ref]$<name>``` | Gets dynamic content from single memory space | Have to constantly use .Value property and always use [ref] in type definition |
+| Custom class | ```class MyClass {     $<name>     Function MyClass() { }}``` | Consistent structure throughout usage | Values unique to each instantiation. |
 
 With all that, Global Private variables or Get-/Set- functions would probably do most of it, but I still didn't like the potential exposure and implementation.  I had no real silver bullet, so I started tinkering around some.
 
