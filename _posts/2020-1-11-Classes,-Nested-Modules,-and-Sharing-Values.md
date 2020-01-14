@@ -31,24 +31,24 @@ This means that the **MyModule** module has two file modules incorporated with i
 
 ## Goals ##
 
-My real goal that I wanted to have was this:
+My real goals here are:
 
 - Consistent value across all nested modules
 - Complete obfuscation outside of the module
 - Ability to control input and output of data flows
-- Black box visibility between modules
+- Black box interfaces between modules
 - Ease of use between modules
 - Work within PowerShell framework
 
 ## Gross oversimplification summary of PowerShell features ##
 
-> I should probably go into each of these in more detail each, but I'll hopefully come back to them in later posts and just retcon this article.
+> I should probably go into each of these in more detail, but I'll hopefully come back to them in later posts and just retcon this article.
 >
 > **-A. Fool, last words**
 
 ### Sharing data ###
 
-However, assume that there is a value in Alpha that needs to be shared with Beta.  There are a few ways to deal with this.
+However, assume there is a value in Alpha that needs to be shared with Beta.  There are a few ways to deal with this.
 
 | **Method** | **Code** | **Pro** | **Con** |
 | --- | --- | --- | --- |
@@ -61,7 +61,7 @@ With all that, Global Private variables or Get-/Set- functions would probably do
 
 #### Scope ####
 
-For anyone not working with PowerShell before, there are really only 4 scopes:
+For anyone not working with PowerShell before, there are really 4 core scopes:
 
 | **Scope** | **Purpose** |
 | --- | --- |
