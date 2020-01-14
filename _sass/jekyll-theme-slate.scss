@@ -189,6 +189,7 @@ blockquote {
   margin-bottom: 20px;
   padding: 0 0 0 20px;
   border-left: 3px solid #bbb;
+  font-size: 12px;
 }
 
 
@@ -301,6 +302,10 @@ Full-Width Styles
   font-size: 42px;
   font-weight: 700;
   text-shadow: #111 0px 0px 10px;
+}
+
+#projec_title:hover a {
+  color: #0F79D0;
 }
 
 #project_tagline {
