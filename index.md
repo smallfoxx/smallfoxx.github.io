@@ -16,7 +16,5 @@ layout: default
     </article>
   {% endfor %}
     <article class="post">
-    <br>
-          {% include svg-icons.html %}
     </article>
 </div>
