@@ -449,11 +449,11 @@ function Get-MyResource {
     param()
 
     DynamicParam{
-        MyCommonParams
+        MyCommonParams -IDType 'Resource'
     }
 
     Begin {
-        $CommParams = MyCommonParams
+        $CommParams = MyCommonParams 'Resource'
     }
     Process {
         ForEach ($Comm in ($CommParams.Keys)) {
@@ -462,11 +462,12 @@ function Get-MyResource {
                 Set-Variable -Name $Comm -Value $CommParams.$Comm.Value
             }
         }
+        $Endpoint = "resource"
         Write-Debug "Using $MyProfile to get $($MyID -join ',')"
         If ($MyID) {
-            Get-APIEndpoint -Endpoint "Resource" -Profile $MyProfile -APIParam @{ "Ids" = $MyID -join ','}
+            Get-APIEndpoint -Endpoint $EndPoint -Profile $MyProfile -APIParam @{ "Ids" = $MyID -join ','}
         } else {
-            Get-APIEndpoint -Endpoint "Resource" -Profile $MyProfile
+            Get-APIEndpoint -Endpoint $EndPoint -Profile $MyProfile
         }
     }
 }
