@@ -3,6 +3,8 @@ layout: post
 title: Dynamic share params
 ---
 
+This was my travel down finding a reliable way to duplicate parameter sets over 100 functions and using default values & aliases along the way.  If you don't want the details, you can jump down to the [TL;DR](#tldr) script for details.
+
 # Quick intro
 
 In case you couldn't tell, I am not a prolific writer; it's only been 2 years since my last post. However, I was recently playing around with an API wrap for PowerShell and put a few things together that I thought might be useful & thus will share.
