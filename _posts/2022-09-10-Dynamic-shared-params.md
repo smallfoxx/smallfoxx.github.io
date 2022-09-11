@@ -5,13 +5,13 @@ title: Dynamic share params
 
 This was my travel down finding a reliable way to duplicate parameter sets over 100 functions and using default values & aliases along the way.  If you don't want the details, you can jump down to the [TL;DR](#tldr) script for details.
 
-# Quick intro
+## Quick intro
 
 In case you couldn't tell, I am not a prolific writer; it's only been 2 years since my last post. However, I was recently playing around with an API wrap for PowerShell and put a few things together that I thought might be useful & thus will share.
 
 Just as preface, a lot of what I'm doing could be done in C# or other languages possibly easier, but this particular API has been wrapped in lots of different languages and I'm trying to do as much as I can within PowerShell. However, if someone has tips or tricks of better ways, I'm **always** happy to hear them.
 
-# What we're doing
+## What we're doing
 
 So the adventure begins with the fact that I'm building over 100 cmdlets in PowerShell and they are intended to be ways for someone to call an API endpoint with a native PowerShell command and not have to go lookup all the API details.  Part of that ends up being there are VERY common parameters used over and over again in these (ie: profile, ID, etc.).  I was getting around this by just using a template function and VSCode autocomplete to paste it in.  They look something like this:
 
@@ -37,7 +37,7 @@ function Get-MyResource {
 }
 ```
 
-# Validation leads to Dynamic Param
+## Validation leads to Dynamic Param
 
 However, I realized that I really wanted to do validation on one of these params after I created a lot of these. On top of that, I realized I wanted it to be dynamically validated based on available profiles. Therefore, I started doing building Dynamic Param to use and would go back and update them.
 
@@ -164,7 +164,7 @@ function Get-MyResource {
 }
 ```
 
-# Compartimentalizing the code with functions
+## Compartimentalizing the code with functions
 
 Hopefully you see that this is a whole lot of code in a little function. And I'm looking at repeating this over 100 times.  Time to find some code reuse.  There are things within the `DynamicParam{}` that I could put into a function, but if you notice, `DynamicParam` itself uses braces `{` `}`... because its a code block.  Its a code block I'm repeating everywhere that just returns a dictionary object. So lets just encapsulate the whole thing in a function that. Actually, lets break out the dictionary build from the main function and just pass the dictionary build a table.
 
@@ -269,13 +269,13 @@ function Get-MyResource {
 
 ```
 
-# Missing a few things
+## Missing a few things
 
 This is working..... but, missing a few things. On the original layout, I had a default value for `$MyProfile` (`[string]$MyProfile=(Get-MyDefaultProfile)`, and I had an Alias (`[Alias('ResourceID')]`) for the `$MyID`.  However, the dynamic param doesn't have that yet.
 
 Fear not!! For there is a way!!!
 
-## Adding in an Alias
+### Adding in an Alias
 
 For the alias, its not too bad. We can use the `System.Management.Automation.AliasAttribute` object type to add an array as an alias.  So first we add an `Alias` property to the parameter table.
 
@@ -306,7 +306,7 @@ if ($ParamDic.$ParamName.Alias) {
 }
 ```
 
-## Default value has a bit of a twist
+### Default value has a bit of a twist
 
 I tried looking around for a default value for a dynamic parameter, but I couldn't find one documented one. If someone out there happens to have one, I would love to hear, so time to start exploring the object values out there.  Looking through them, I found the dictionary of the dynamic parameters was just this:
 
@@ -363,13 +363,13 @@ Process {
 
 By doing a `ForEach` loop through the dictionary keys, I can also use this regardless of which variables are put in the common dynamica param table and reference them as the name
 
-# Links
+## Links
 
 - [Dynamic Parameters in PowerShell](https://powershellmagazine.com/2014/05/29/dynamic-parameters-in-powershell/) by Ben Ten
 - [Tips and Tricks to Using PowerShell Dynamic Parameters](https://jeffbrown.tech/tips-and-tricks-to-using-powershell-dynamic-parameters/) by Jeff Brown
 - [RuntimeDefinedParameter Class](https://docs.microsoft.com/en-us/dotnet/api/system.management.automation.runtimedefinedparameter?view=powershellsdk-7.0.0)
 
-# TL;DR
+## TL;DR
 
 So just a quick summary, if you want to use Dynamic Parameters with Aliases and/or Default Values, you can use this script as a template:
 
