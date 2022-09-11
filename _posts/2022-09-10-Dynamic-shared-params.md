@@ -352,7 +352,7 @@ Begin {
 Process {
     ForEach ($Comm in ($CommParams.Keys)) {
         Set-Variable -Name $Comm -Value $PSBoundParameters.$Comm
-        If (-not [string]::IsNullOrEmpty((Get-Variable -Name $Comm))) {
+        If (-not ((Get-Variable -Name $Comm).Value)) {
             Set-Variable -Name $Comm -Value $CommParams.$Comm.Value
         }
     }
@@ -458,7 +458,7 @@ function Get-MyResource {
     Process {
         ForEach ($Comm in ($CommParams.Keys)) {
             Set-Variable -Name $Comm -Value $PSBoundParameters.$Comm
-            If (-not [string]::IsNullOrEmpty((Get-Variable -Name $Comm))) {
+            If (-not ((Get-Variable -Name $Comm).Value)) {
                 Set-Variable -Name $Comm -Value $CommParams.$Comm.Value
             }
         }
